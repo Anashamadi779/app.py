@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-
+from sklearn.linear_model import LinearRegression
 st.title("La Statistique Descriptive")
 
 uploaded_file = st.file_uploader("Choisissez un fichier Excel ou CSV", type=["xlsx", "csv"])
@@ -79,3 +79,18 @@ if uploaded_file:
         st.subheader("Régression Linéaire")
         x_column = st.selectbox("Choisissez la colonne indépendante (X) :", df.columns)
         y_column = st.selectbox("Choisissez la colonne dépendante (Y) :", df.columns)
+        X = df[[x_column]].values
+        y = df[y_column].values
+        model = LinearRegression()
+        model.fit(X, y)
+
+        y_pred = model.predict(X)
+
+        plt.figure(figsize=(10, 5))
+        sns.scatterplot(x=X.flatten(), y=y, color='blue', label='Données réelles')
+        plt.plot(X, y_pred, color='red', label='Ligne de régression')
+        plt.title(f"Régression Linéaire: {y_column} vs {x_column}")
+        plt.xlabel(x_column)
+        plt.ylabel(y_column)
+        plt.legend()
+        st.pyplot(plt)
