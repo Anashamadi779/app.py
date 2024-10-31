@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
@@ -44,7 +44,7 @@ if uploaded_file:
 
     st.write(str(fonction) + "de " + str(column) + "est : " + str(result))
 
-    graphe = st.selectbox("Choisissez le type de graphique :", ["Histogramme","Barres", "Boîte à moustaches"])
+    graphe = st.selectbox("Choisissez le type de graphique :", ["Histogramme","Barres", "Boîte à moustaches","Régression Linéaire"])
 
     labels = ['Moyenne', 'Médiane', 'Variance', 'Écart-type','max','min']
     values = [np.mean(df[column]), np.median(df[column]), np.var(df[column]), np.std(df[column], ddof = 1),np.max(df[column]),np.min(df[column])]
@@ -75,3 +75,7 @@ if uploaded_file:
                          boxprops={'color': 'yellow', 'linewidth': 2})
         plt.title("Boîte à moustaches de " + str(column))
         st.pyplot(plt)
+    elif graphe == "Régression Linéaire":
+        st.subheader("Régression Linéaire")
+        x_column = st.selectbox("Choisissez la colonne indépendante (X) :", df.columns)
+        y_column = st.selectbox("Choisissez la colonne dépendante (Y) :", df.columns)
